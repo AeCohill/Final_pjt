@@ -11,11 +11,30 @@ const router = express.Router()
 
 
 // Middleware
-app.use(cors()); // Allows cross-origin requests
-app.use(express.json()); // Parses JSON request bodies
+//app.use(cors()); // Allows cross-origin requests
+//app.use(express.json()); // Parses JSON request bodies
 
 
 //requests and responces from router go here 
+router.get("/songs", function(req,res){
+    const songs = [
+        {
+            title: "We Found Love",
+            artist: "Rihanna",
+            popularity: 10,
+            releaseDate: new Date(2011, 9, 22),
+            genre: ["electro house"]
+        },
+        {
+            title: "Happy",
+            artist: "Pharell Williams",
+            popularity: 10,
+            releaseDate: new Date(2011, 9, 22),
+            genre: ["new soul", "soul"]
+        }
+    ]
+    res.json(songs)
+})
 
 
 app.use('/api', router);
