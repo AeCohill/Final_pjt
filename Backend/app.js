@@ -24,13 +24,6 @@ router.get("/songs", function(req,res){
             popularity: 10,
             releaseDate: new Date(2011, 9, 22),
             genre: ["electro house"]
-        },
-        {
-            title: "Happy",
-            artist: "Pharell Williams",
-            popularity: 10,
-            releaseDate: new Date(2011, 9, 22),
-            genre: ["new soul", "soul"]
         }
     ]
     res.json(songs)
