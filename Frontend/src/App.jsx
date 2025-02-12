@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -30,6 +31,15 @@ function App() {
 
   return (
     <>
+      <BrowserRouter>
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="*" element={<NotFound />} />
+         </Routes>
+         <NavBar />
+      </BrowserRouter>         
       <h1>
         SDEV255 Final Front End
       </h1>
@@ -57,7 +67,46 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <div>
-        {error && <p className="text-danger">Error: {error}</p>} {/* Display error if any */}
+        {error && <p className="text-danger">Error: {error}</p>}
+      
+      </div>
+    </>
+  )
+}
+
+//This function is for testing purposes - nef
+function NavBar() {
+  return (
+     <nav>
+        <ul>
+           <li>
+              <Link to="/">Home</Link>
+           </li>
+           <li>
+              <Link to="/login">Login</Link>
+           </li>
+           <li>
+              <Link to="/courses">Courses</Link>
+           </li>
+        </ul>
+     </nav>
+  );
+}
+
+function Home() {
+  return <h1>Home</h1>;
+}
+
+function Login() {
+  return <h1>Login</h1>;
+}
+
+function Courses() {
+  console.log("Courses page loaded!");
+  return (
+    <>
+      <h1>Courses</h1>
+      
         <ul>
           {songs.length > 0 ? (
             songs.map((song, index) => (
@@ -67,12 +116,15 @@ function App() {
             <p>Loading songs...</p>
           )}
         </ul>
-      </div>
     </>
-  )
+  );
 }
 
-//This function is for testing purposes - nef
+
+function NotFound() {
+  return <h1>Not Found</h1>;
+}
+
 function MyButton() {
   return (
     <button>I'm a button</button>
