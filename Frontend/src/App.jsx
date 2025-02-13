@@ -1,83 +1,68 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from "react";
+import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
+import { Card, CardContent } from "./ui/Card";
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [songs, setSongs] = useState([]);  // State to hold song data
-  const [error, setError] = useState(null); // To handle any errors
+export default function CourseApp() {
+  const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [form, setForm] = useState({ title: "", number: "", professor: "", info: "" });
 
-  // Call the fetchSongs function when the component mounts
-  useEffect(() => {
-    fetchSongs();
-  }, []);  // Empty dependency array to run only on component mount
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  // Function to fetch songs data
-  const fetchSongs = async () => {
-    try {
-      const response = await fetch("https://equinox-climbing-handbell.glitch.me/api/songs");
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const songsData = await response.json();
-      setSongs(songsData);  // Update state with fetched songs
-    } catch (error) {
-      setError(error.message);  // Set error message if something goes wrong
-    }
+  const addCourse = () => {
+    if (!form.title || !form.number || !form.professor) return;
+    setCourses([...courses, { ...form, id: Date.now() }]);
+    setForm({ title: "", number: "", professor: "", info: "" });
   };
 
   return (
-    <>
-      <h1>
-        SDEV255 Final Front End
-      </h1>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* Navigation */}
+      <div className="flex justify-between mb-6">
+        <div className="space-x-4">
+          <Button variant="outline">Course List</Button>
+          <Button variant="outline">Button 2</Button>
+          <Button variant="outline">Button 3</Button>
+        </div>
+        <div>
+          <Button variant="ghost">Login / Logout</Button>
+          <Button variant="ghost">Register</Button>
+        </div>
       </div>
-     
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <MyButton />
-        <button class="btn btn-primary">Primary button</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <div>
-        {error && <p className="text-danger">Error: {error}</p>} {/* Display error if any */}
-        <ul>
-          {songs.length > 0 ? (
-            songs.map((song, index) => (
-              <li key={index}>{song.title} - {song.artist} - {song.genre}</li>
-            ))
-          ) : (
-            <p>Loading songs...</p>
-          )}
-        </ul>
-      </div>
-    </>
-  )
-}
+      
+      {/* Search Bar */}
+      <Input
+        placeholder="Search for Course"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="mb-4"
+      />
 
-//This function is for testing purposes - nef
-function MyButton() {
-  return (
-    <button>I'm a button</button>
+      {/* Add Course Form */}
+      <Card className="p-4 mb-6">
+        <h2 className="text-xl font-bold mb-4">Add a Course</h2>
+        <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} className="mb-2" />
+        <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} className="mb-2" />
+        <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} className="mb-2" />
+        <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} className="mb-4" />
+        <Button onClick={addCourse}>Add Course</Button>
+      </Card>
+
+      {/* Course List */}
+      <div>
+        {courses.filter(c => c.title.toLowerCase().includes(search.toLowerCase())).map((course) => (
+          <Card key={course.id} className="mb-2">
+            <CardContent>
+              <h3 className="text-lg font-bold">{course.title} ({course.number})</h3>
+              <p className="text-sm">Instructor: {course.professor}</p>
+              <p className="text-xs text-gray-600">{course.info}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 }
-
-
-export default App
