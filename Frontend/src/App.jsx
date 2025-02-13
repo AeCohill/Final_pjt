@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
+import "./styles.css";
 
 export default function CourseApp() {
   const [courses, setCourses] = useState([]);
@@ -19,46 +20,44 @@ export default function CourseApp() {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    
+    <div className="app-container">
       {/* Navigation */}
-      <div className="flex justify-between mb-6">
-        <div className="space-x-4">
-          <Button variant="outline">Course List</Button>
-          <Button variant="outline">Button 2</Button>
-          <Button variant="outline">Button 3</Button>
+      <div className="nav-bar">
+        <div className="nav-links">
+          <Button className="nav-button">Course List</Button>
+          <Button className="nav-button">Button 2</Button>
+          <Button className="nav-button">Button 3</Button>
         </div>
-        <div>
-          <Button variant="ghost">Login / Logout</Button>
-          <Button variant="ghost">Register</Button>
+        <div className="auth-buttons">
+          <Button className="nav-button">Login / Logout</Button>
+          <Button className="nav-button">Register</Button>
         </div>
       </div>
       
       {/* Search Bar */}
-      <Input
-        placeholder="Search for Course"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4"
-      />
+      <Input className="search-input" placeholder="Search for Course" value={search} onChange={(e) => setSearch(e.target.value)} />
 
       {/* Add Course Form */}
-      <Card className="p-4 mb-6">
-        <h2 className="text-xl font-bold mb-4">Add a Course</h2>
-        <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} className="mb-2" />
-        <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} className="mb-2" />
-        <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} className="mb-2" />
-        <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} className="mb-4" />
-        <Button onClick={addCourse}>Add Course</Button>
+      <Card className="course-form">
+        <h2 className="form-title">Add a Course</h2>
+        <div className="form-group">
+          <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} />
+          <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} />
+          <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} />
+          <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} />
+        </div>
+        <Button className="form-button" onClick={addCourse}>Add Course</Button>
       </Card>
 
       {/* Course List */}
-      <div>
+      <div className="course-list">
         {courses.filter(c => c.title.toLowerCase().includes(search.toLowerCase())).map((course) => (
-          <Card key={course.id} className="mb-2">
+          <Card key={course.id} className="course-card">
             <CardContent>
-              <h3 className="text-lg font-bold">{course.title} ({course.number})</h3>
-              <p className="text-sm">Instructor: {course.professor}</p>
-              <p className="text-xs text-gray-600">{course.info}</p>
+              <h3 className="course-title">{course.title} ({course.number})</h3>
+              <p className="course-professor">Instructor: {course.professor}</p>
+              <p className="course-info">{course.info}</p>
             </CardContent>
           </Card>
         ))}
