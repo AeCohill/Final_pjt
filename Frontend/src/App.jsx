@@ -20,7 +20,7 @@ export default function CourseApp() {
   };
 
   return (
-    
+    <div className="wrapper">
     <div className="app-container">
       {/* Navigation */}
       <div className="nav-bar">
@@ -63,5 +63,6 @@ export default function CourseApp() {
         ))}
       </div>
     </div>
+  </div>
   );
 }
