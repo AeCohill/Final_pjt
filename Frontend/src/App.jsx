@@ -27,10 +27,11 @@ function CourseApp() {
       <div className="nav-bar">
         <div className="nav-links">
           <Link to="/" className="nav-button">Course List</Link>
-          <Link to="/register" className="nav-button">Register</Link>
+          <Button className="nav-button">PlaceHolder</Button>
         </div>
         <div className="auth-buttons">
           <Button className="nav-button">Login / Logout</Button>
+          <Link to="/register" className="nav-button">Register</Link>
         </div>
       </div>
 
@@ -43,8 +44,8 @@ function CourseApp() {
         <div className="form-group">
           <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} />
           <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} />
-          <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} />
-          <Input name="info" placeholder="Course Info" value={form.info} />
+          <Input name="professor" placeholder="Teacher/Prof" value={form.professor}  />
+          <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} />
         </div>
         <Button className="form-button" onClick={addCourse}>Add Course</Button>
       </Card>

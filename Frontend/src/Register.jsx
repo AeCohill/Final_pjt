@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
+import "./styles.css";
 
 function RegistrationForm({ onClose }) {
   const [inputs, setInputs] = useState({
@@ -35,21 +36,16 @@ function RegistrationForm({ onClose }) {
       <form onSubmit={handleSubmit} className="form-group">
         <Input type="text" name="username" placeholder="Username" value={inputs.username} onChange={handleChange} />
         <Input type="email" name="email" placeholder="Email" value={inputs.email} onChange={handleChange} />
+        <Input type="email" name="Fname" placeholder="First Name" value={inputs.email} onChange={handleChange} />
+        <Input type="email" name="Lname" placeholder="Last Name" value={inputs.email} onChange={handleChange} />
+        <Input type="email" name="Pword" placeholder="Password" value={inputs.email} onChange={handleChange} />
+        <Input type="email" name="conPword" placeholder="Confirm Password" value={inputs.email} onChange={handleChange} />
         
-        <label>Shirt size:</label>
-        <select name="shirtSize" value={inputs.shirtSize} onChange={handleChange}>
-           <option value="Small">Small</option>
-           <option value="Medium">Medium</option>
-           <option value="Large">Large</option>
+        <label>Student or Teacher</label>
+        <select name="acctType" value={inputs.acctType} onChange={handleChange}>
+           <option value="Student">Student</option>
+           <option value="Teacher">Teacher</option>
         </select>
-
-        <label>
-          <input type="checkbox" name="notifications" checked={inputs.notifications} onChange={handleChange} />
-          Receive notifications?
-        </label>
-
-        <textarea name="bio" placeholder="Short bio" value={inputs.bio} onChange={handleChange}></textarea>
-
         <Button type="submit">Register</Button>
         <Button variant="outline" onClick={onClose}>Cancel</Button>
       </form>
