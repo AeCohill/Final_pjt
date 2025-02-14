@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
-import { RegistrationForm } from "./Register";  // Import RegistrationForm
+import { RegistrationForm } from "./Register";
+import { LoginForm } from "./login";   
 import "./styles.css";
 
 function CourseApp() {
@@ -30,7 +31,8 @@ function CourseApp() {
           <Button className="nav-button">PlaceHolder</Button>
         </div>
         <div className="auth-buttons">
-          <Button className="nav-button">Login / Logout</Button>
+          <Button className="nav-button">Logout</Button>
+          <Link to="/login" className="nav-button">Login</Link>
           <Link to="/register" className="nav-button">Register</Link>
         </div>
       </div>
@@ -44,7 +46,7 @@ function CourseApp() {
         <div className="form-group">
           <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} />
           <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} />
-          <Input name="professor" placeholder="Teacher/Prof" value={form.professor}  />
+          <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} />
           <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} />
         </div>
         <Button className="form-button" onClick={addCourse}>Add Course</Button>
@@ -72,6 +74,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<CourseApp />} />
         <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
     </Router>
   );
