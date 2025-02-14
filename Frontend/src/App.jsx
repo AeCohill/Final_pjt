@@ -1,10 +1,12 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
+import { RegistrationForm } from "./Register";  // Import RegistrationForm
 import "./styles.css";
 
-export default function CourseApp() {
+function CourseApp() {
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState({ title: "", number: "", professor: "", info: "" });
@@ -20,21 +22,18 @@ export default function CourseApp() {
   };
 
   return (
-    <div className="wrapper">
     <div className="app-container">
       {/* Navigation */}
       <div className="nav-bar">
         <div className="nav-links">
-          <Button className="nav-button">Course List</Button>
-          <Button className="nav-button">Button 2</Button>
-          <Button className="nav-button">Button 3</Button>
+          <Link to="/" className="nav-button">Course List</Link>
+          <Link to="/register" className="nav-button">Register</Link>
         </div>
         <div className="auth-buttons">
           <Button className="nav-button">Login / Logout</Button>
-          <Button className="nav-button">Register</Button>
         </div>
       </div>
-      
+
       {/* Search Bar */}
       <Input className="search-input" placeholder="Search for Course" value={search} onChange={(e) => setSearch(e.target.value)} />
 
@@ -45,7 +44,7 @@ export default function CourseApp() {
           <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} />
           <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} />
           <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} />
-          <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} />
+          <Input name="info" placeholder="Course Info" value={form.info} />
         </div>
         <Button className="form-button" onClick={addCourse}>Add Course</Button>
       </Card>
@@ -63,6 +62,16 @@ export default function CourseApp() {
         ))}
       </div>
     </div>
-  </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<CourseApp />} />
+        <Route path="/register" element={<RegistrationForm />} />
+      </Routes>
+    </Router>
   );
 }
