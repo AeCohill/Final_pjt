@@ -4,6 +4,7 @@ import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Card, CardContent } from "./ui/Card";
 import "./styles.css";
+import { Link, useNavigate } from "react-router-dom"; 
 
 function RegistrationForm({ onClose }) {
   const [inputs, setInputs] = useState({
@@ -47,7 +48,7 @@ function RegistrationForm({ onClose }) {
            <option value="Teacher">Teacher</option>
         </select>
         <Button type="submit">Register</Button>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
+        <Button type="button" onClick={() => navigate("/")} variant="outline">Cancel</Button>
       </form>
     </Card>
   );
