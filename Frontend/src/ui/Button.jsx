@@ -11,4 +11,4 @@ function Button({ variant = "solid", className, ...props }) {
   );
 }
 
-export { Button };
+export default Button;

@@ -1,10 +1,9 @@
 // src/RegistrationForm.jsx
 import { useState } from "react";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-import { Card, CardContent } from "./ui/Card";
-import "./styles.css";
-import { Link, useNavigate } from "react-router-dom"; 
+import Input  from "../ui/Input";
+import Button  from "../ui/Button";
+import { Card } from "../ui/Card";
+import "../styles.css";
 
 function RegistrationForm({ onClose }) {
   const [inputs, setInputs] = useState({
