@@ -44,7 +44,7 @@ function CourseApp() {
           <div className="form-group">
             <Input name="title" placeholder="Course Title" value={form.title} onChange={handleChange} />
             <Input name="number" placeholder="Course Number" value={form.number} onChange={handleChange} />
-            <Input name="professor" placeholder="Teacher/Prof" value={form.professor}  />
+            <Input name="professor" placeholder="Teacher/Prof" value={form.professor} onChange={handleChange} />
             <Input name="info" placeholder="Course Info" value={form.info} onChange={handleChange} />
           </div>
           <Button className="form-button" onClick={addCourse}>Add Course</Button>

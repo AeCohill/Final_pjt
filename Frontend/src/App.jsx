@@ -18,10 +18,9 @@ export default function App() {
       <div className="container mt-5 pt-5">
       <Routes>
         <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
         <Route path="/course" element={<CourseApp />} />
         <Route path="/api" element={<API />} />
-        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </div>
