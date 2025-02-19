@@ -26,7 +26,7 @@ function CourseApp() {
         {/* Navigation */}
         <div className="nav-bar">
           <div className="nav-links">
-            <Link to="/" className="nav-button">Course List</Link>
+            <Link to="/courselist" className="nav-button">Course List</Link>
             <Button className="nav-button">PlaceHolder</Button>
           </div>
           <div className="auth-buttons">
