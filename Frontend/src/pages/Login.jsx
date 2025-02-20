@@ -1,12 +1,12 @@
 // src/login.jsx
 import { useState } from "react";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-import { Card } from "./ui/Card";
+import Input  from "../ui/Input";
+import Button  from "../ui/Button";
+import { Card } from "../ui/Card";
 import { useNavigate } from "react-router-dom";
-import "./styles.css";
+import "../styles.css";
 
-function LoginForm() {
+function Login() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     username: "",
@@ -49,4 +49,4 @@ function LoginForm() {
   );
 }
 
-export { LoginForm };
+export default Login;

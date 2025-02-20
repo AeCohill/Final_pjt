@@ -6,4 +6,5 @@ function Input({ className, ...props }) {
       />
     );
   }
-  export { Input };
+  
+  export default Input;
