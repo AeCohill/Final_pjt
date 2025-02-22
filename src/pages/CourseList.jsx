@@ -1,60 +1,117 @@
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { useState, useEffect } from "react";
-import Input  from "../ui/Input";
+import Input from "../ui/Input";
 
 function CourseList() {
-  const [songs, setSongs] = useState([]);  // Ensure no duplicate 'songs' variable
+  const [courses, setCourses] = useState([]); // Use 'courses' instead of 'songs'
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchSongs();  // Fetch songs on component mount
+    fetchCourses(); // Fetch courses on component mount
   }, []);
 
-  const fetchSongs = async () => {
+  const fetchCourses = async () => {
     try {
-      const response = await fetch("https://equinox-backend.glitch.me/api/songs");
+      const response = await fetch("https://equinox-backend.glitch.me/api/courses");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const songsData = await response.json();
-      setSongs(songsData);  // Set the fetched songs
+      const coursesData = await response.json();
+      setCourses(coursesData); // Set the fetched courses
     } catch (error) {
-      setError(error.message);  // Set error message if any
+      setError(error.message); // Set error message if any
     }
   };
 
+  // Filter courses based on search query
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="container mt-4">
+      {/* Search Bar and Course List Header */}
+      <div className="mb-4">
+        <h1>Courses List</h1>
+        <Input
+          className="search-input"
+          placeholder="Search for Course"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
-        <div className="course-list">
-        {courses.filter(c => c.title.toLowerCase().includes(search.toLowerCase())).map((course) => (
-          <Card key={course.id} className="course-card">
-            <CardContent>
-              <h3 className="course-title">{course.title} ({course.number})</h3>
-              <p className="course-professor">Instructor: {course.professor}</p>
-              <p className="course-info">{course.info}</p>
-            </CardContent>
-          </Card>
-        ))}
-        </div>
+      {/* Error Message */}
+      {error && <p>Error: {error}</p>} 
 
-
-      {/* Search Bar */}
-      <Input className="search-input" placeholder="Search for Course" value={search} onChange={(e) => setSearch(e.target.value)} />
-
-      <h1>Songs List</h1>
-      {error && <p>Error: {error}</p>}  
-      <ul>
-        {songs.length === 0 ? (
-          <li>Loading songs...</li>  
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        {filteredCourses.length === 0 ? (
+          <p>No courses found...</p>
         ) : (
-          songs.map((song, index) => (
-            <li key={index}>
-              <strong>{song.title}</strong> by {song.artist} the genre is {song.genre}
-            </li>  
+          filteredCourses.map((course) => (
+            <div className="col" key={course._id}>
+              <div className="course-card">
+                <div className="course-card-header">
+                  <strong>{course.title}</strong> ({course.number})
+                  <p className="course-professor">by {course.professor}</p>
+                </div>
+                
+                {/* Display course info directly without expanding */}
+                <div className="course-info">
+                  <p>{course.info}</p>
+                </div>
+              </div>
+            </div>
           ))
         )}
-      </ul>
+      </div>
+
+      <style jsx>{`
+        .course-card {
+          border: 1px solid #ddd;
+          padding: 1rem;
+          background-color: white;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          height: auto; /* Allow flexible height */
+          width: 100%; /* Full width within column */
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .course-card-header {
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+
+        .course-professor {
+          font-size: 0.9rem;
+          color: gray;
+        }
+
+        .course-info {
+          margin-top: 10px;
+        }
+
+        /* Custom CSS for larger columns with min-width to prevent shrinking */
+        @media (min-width: 768px) {
+          .col {
+            flex: 0 0 33%;  /* Set fixed width for medium and larger screens */
+            max-width: 33%;  /* Ensure that cards don't shrink */
+            min-width: 250px;  /* Prevent shrinking by setting a min-width */
+          }
+        }
+
+        /* Smaller screens - ensure cards still look good */
+        @media (max-width: 767px) {
+          .col {
+            flex: 0 0 100%; /* Take full width on smaller screens */
+            max-width: 100%;
+          }
+        }
+      `}</style>
     </div>
   );
 }
