@@ -3,6 +3,7 @@ import "./App.css"
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import CourseApp from "./pages/CourseApp";
 import CourseList from '/src/pages/CourseList';
+import CourseEdit from '/src/pages/CourseEdit';
 import API from '/src/pages/API';
 import Login from '/src/pages/Login';
 import { RegistrationForm } from "./components/Register";  // Import RegistrationForm
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/course" element={<CourseApp />} />
         <Route path="/api" element={<API />} />
         <Route path="/courselist" element={<CourseList />} />
+        <Route path="/courseedit/:courseId" element={<CourseEdit />} />
         <Route path="*" element={<Home />} />
       </Routes>
       </div>
