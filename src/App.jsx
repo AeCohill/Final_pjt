@@ -6,7 +6,7 @@ import CourseList from '/src/pages/CourseList';
 import CourseEdit from '/src/pages/CourseEdit';
 import API from '/src/pages/API';
 import Login from '/src/pages/Login';
-import { RegistrationForm } from "./components/Register";  // Import RegistrationForm
+import { RegistrationForm } from "/src/pages/Register";  // Import RegistrationForm
 import NavBar from "./components/NavBar"
 import Home from './pages/Home';
 
