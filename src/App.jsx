@@ -23,7 +23,8 @@ export default function App() {
         <Route path="/api" element={<API />} />
         <Route path="/courselist" element={<CourseList />} />
         <Route path="/courseedit/:courseId" element={<CourseEdit />} />
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<Login />} />
+        <Route path="/" element={<Login />} />
       </Routes>
       </div>
     </BrowserRouter>

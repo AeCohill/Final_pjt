@@ -4,6 +4,7 @@ import Button from "../ui/Button";
 import { Card } from "../ui/Card";
 import { useNavigate } from "react-router-dom";
 import "../styles.css";
+import { Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -75,6 +76,8 @@ function Login() {
         <Button type="submit">Login</Button>
         <Button type="button" onClick={() => navigate("/")} variant="outline">Cancel</Button>
       </form>
+
+      <p>Not Registered? <Link to="/register">CLICK HERE!</Link></p> 
     </Card>
   );
 }
