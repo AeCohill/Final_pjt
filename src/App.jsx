@@ -33,31 +33,16 @@ export default function App() {
     <BrowserRouter>
       <NavBar />
       <div className="container mt-5 pt-5">
-        <Routes>
-          <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/" element={<Home />} />
-
-          {/* Protected Routes wrapped in PrivateRoutes */}
-          <Route element={<PrivateRoutes requiredRole="Teacher" />}>
-            {/* Routes that only a Teacher can access */}
-            <Route path="/api" element={<API />} />
-            <Route path="/courseedit/:courseId" element={<CourseEdit />} />
-            <Route path="/course" element={<CourseApp />} />
-          </Route>
-
-          <Route element={<PrivateRoutes />}>
-            {/* Routes that both Teacher and Student can access */}
-            <Route path="/home" element={<Home />} />
-            <Route path="/courselist" element={<CourseList />} />
-            
-          </Route>
-
-          {/* Login Route */}
-          <Route path="/login" element={<Login />} />
-
-          {/* Default Route (catch-all) */}
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
+      <Routes>
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/course" element={<CourseApp />} />
+        <Route path="/api" element={<API />} />
+        <Route path="/courselist" element={<CourseList />} />
+        <Route path="/courseedit/:courseId" element={<CourseEdit />} />
+        <Route path="*" element={<Login />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
       </div>
     </BrowserRouter>
   );
