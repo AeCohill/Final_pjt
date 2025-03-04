@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function NavBar() {
+  const navigate = useNavigate(); // Hook for navigation
+
   return (
     <nav className="navbar bg-body-tertiary fixed-top">
       <div className="container-fluid">
-
         <button 
           className="navbar-toggler" 
           type="button" 
@@ -20,7 +22,9 @@ function NavBar() {
         </button>
 
         
-        {/* <Link className="navbar-brand ms-3" to="/">Login</Link> */}
+        {/* Logout Button (aligned to the right) */}
+        <Logout/>
+        
 
         {/* Offcanvas Menu */}
         <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -55,20 +59,19 @@ function NavBar() {
                 </ul>
               </li>
 
-              
-              {/* Dropdown Menu */}
+              {/* Admin Settings Dropdown */}
               <li className="nav-item dropdown">
                 <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Admin Settings
                 </Link>
-                <ul className="dropdown-menu dropdown-menu-start"> {/* Aligned to the left */}
+                <ul className="dropdown-menu dropdown-menu-start">
                   <li><Link className="dropdown-item" to="/course">Add Classes</Link></li>
                   <li><hr className="dropdown-divider" /></li>
                   <li><Link className="dropdown-item" to="/api">API Testing</Link></li>
                 </ul>
               </li>
             </ul>
-
+            <Logout/>
             {/* Search Form */}
             <form className="d-flex mt-3" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

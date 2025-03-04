@@ -7,6 +7,7 @@ export default defineConfig({
   //base: "/Final_pjt/",
   resolve: {
     alias: {
+      '@components': '/src/components',
       '@': path.resolve(__dirname, 'src')
     }
   }
