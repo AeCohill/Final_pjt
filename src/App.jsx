@@ -37,7 +37,7 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <NavBar isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn as a prop */}
       <div className="container mt-5 pt-5">
         <Routes>
@@ -68,6 +68,6 @@ export default function App() {
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
-    </BrowserRouter>
+      </HashRouter>
   );
 }
