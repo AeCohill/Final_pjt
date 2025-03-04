@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "private": true,
+  "homepage": "https://aecohill.github.io/Final_pjt/",
   "version": "0.0.0",
   "type": "module",
   "proxy": "http://localhost:5000",
