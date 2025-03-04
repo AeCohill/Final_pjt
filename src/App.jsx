@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { HashRouter as Routes, Route } from 'react-router-dom';
+
 import { useState, useEffect } from 'react';
 import CourseApp from './pages/CourseApp';
 import CourseList from './pages/CourseList';
