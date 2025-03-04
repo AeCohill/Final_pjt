@@ -71,7 +71,6 @@ function NavBar() {
                 </ul>
               </li>
             </ul>
-            <Logout/>
             {/* Search Form */}
             <form className="d-flex mt-3" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
