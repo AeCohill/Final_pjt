@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Navigate, Routes, Route, HashRouter } from 'react-router-dom'; // Use HashRouter instead of BrowserRouter
 import { useState, useEffect } from 'react';
 import CourseApp from './pages/CourseApp';
 import CourseList from './pages/CourseList';
@@ -37,7 +37,7 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>  {/* Switch BrowserRouter to HashRouter */}
       <NavBar isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn as a prop */}
       <div className="container mt-5 pt-5">
         <Routes>
@@ -68,6 +68,6 @@ export default function App() {
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
