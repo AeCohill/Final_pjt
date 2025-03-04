@@ -14,42 +14,46 @@ function Login() {
   });
 
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event) {
-  event.preventDefault();
+    event.preventDefault();
+    setError("");  // Clear previous errors
+    setIsLoading(true);  // Show loading state
 
-  setError("");  // Clear previous errors
+    try {
+      const response = await fetch("https://equinox-backend.glitch.me/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: inputs.username,
+          password: inputs.password,
+        }),
+      });
 
-  try {
-    const response = await fetch("https://equinox-backend.glitch.me/api/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: inputs.username,
-        password: inputs.password,
-      }),
-    });
+      const data = await response.json();
 
-    const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
 
-    if (!response.ok) {
-      throw new Error(data.error || "Login failed");
+      // ✅ Save token and role to localStorage
+      localStorage.setItem("token", data.token);  // Save the auth token
+      localStorage.setItem("role", data.role);  // Save the user's role (received from the backend)
+
+      //reloads page after login
+      
+      navigate("/home");
+      
+      window.location.reload();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);  // Stop loading state
     }
-
-    // ✅ Save token and role to localStorage
-    localStorage.setItem("token", data.token);  // Save the auth token
-    localStorage.setItem("role", data.role);  // Save the user's role (received from the backend)
-
-    // Optionally, navigate to a different route if you don't want to refresh
-    navigate("/");  // Redirect to the dashboard or home page
-    window.location.reload(); 
-  } catch (err) {
-    setError(err.message);
   }
-}
-
 
   function handleChange(event) {
     const { name, type, value, checked } = event.target;
@@ -79,7 +83,9 @@ function Login() {
           onChange={handleChange}
         />
 
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </Button>
         <Button type="button" onClick={() => navigate("/")} variant="outline">
           Cancel
         </Button>
