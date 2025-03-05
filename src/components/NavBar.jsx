@@ -7,7 +7,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 function NavBar({ isLoggedIn }) {  // Accept isLoggedIn as a prop
   const navigate = useNavigate(); // Hook for navigation
 
-  const userRole = localStorage.getItem("role")
+  const username = localStorage.getItem("user")
 
   return (
     <nav className="navbar bg-body-tertiary fixed-top">
@@ -22,6 +22,10 @@ function NavBar({ isLoggedIn }) {  // Accept isLoggedIn as a prop
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
+        <h1>
+          {isLoggedIn && "Welcome, " + username}
+        </h1>
 
         {/* Logout Button (only show when logged in) */}
         {isLoggedIn && <Logout />} {/* If logged in, show logout button */}

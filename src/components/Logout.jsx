@@ -26,6 +26,7 @@ function Logout() {
     // Remove token and role from both localStorage and sessionStorage
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('user')
     sessionStorage.removeItem('token');
 
     // Redirect to login page

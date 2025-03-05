@@ -42,6 +42,7 @@ function Login() {
       // ✅ Save token and role to localStorage
       localStorage.setItem("token", data.token);  // Save the auth token
       localStorage.setItem("role", data.role);  // Save the user's role (received from the backend)
+      localStorage.setItem("user", data.username)
 
       //reloads page after login
       
