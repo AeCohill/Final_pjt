@@ -1,37 +1,89 @@
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from "react";
 import Input from "../ui/Input";
 
 function CourseList() {
-  const [courses, setCourses] = useState([]); // Use 'courses' instead of 'songs'
+  const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetchCourses(); // Fetch courses on component mount
+    fetchCourses();
+    fetchUserCourses();  // Fetch user's enrolled courses
   }, []);
 
   const fetchCourses = async () => {
     try {
       const response = await fetch("https://equinox-backend.glitch.me/api/courses");
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const coursesData = await response.json();
-      setCourses(coursesData); // Set the fetched courses
+      setCourses(coursesData);
     } catch (error) {
-      setError(error.message); // Set error message if any
+      setError(error.message);
     }
   };
 
-  // Filter courses based on search query
+  const fetchUserCourses = async () => {
+    try {
+      const response = await fetch("https://equinox-backend.glitch.me/api/user/courses", {
+        headers: { "x-auth": token },
+      });
+      if (!response.ok) throw new Error("Failed to fetch user courses");
+      const data = await response.json();
+      setEnrolledCourses(data.courses.map(course => course._id));
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const enrollInCourse = async (courseId) => {
+    const updatedCourses = [...enrolledCourses, courseId];  // Add the new course
+
+    try {
+      const response = await fetch("https://equinox-backend.glitch.me/api/user/courses", {
+        method: "PUT",
+        headers: {
+          "x-auth": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedCourses: updatedCourses }),
+      });
+      if (!response.ok) throw new Error("Failed to enroll");
+      alert("Successfully enrolled in the course");
+      setEnrolledCourses(updatedCourses);  // Update local state
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const dropCourse = async (courseId) => {
+    const updatedCourses = enrolledCourses.filter(id => id !== courseId);  // Remove the course
+
+    try {
+      const response = await fetch("https://equinox-backend.glitch.me/api/user/courses", {
+        method: "PUT",
+        headers: {
+          "x-auth": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedCourses: updatedCourses }),
+      });
+      if (!response.ok) throw new Error("Failed to drop course");
+      alert("Successfully dropped the course");
+      setEnrolledCourses(updatedCourses);  // Update local state
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="container mt-4">
-      {/* Search Bar and Course List Header */}
       <div className="mb-4">
         <h1>Courses List</h1>
         <Input
@@ -42,8 +94,7 @@ function CourseList() {
         />
       </div>
 
-      {/* Error Message */}
-      {error && <p>Error: {error}</p>} 
+      {error && <p className="text-danger">Error: {error}</p>}
 
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         {filteredCourses.length === 0 ? (
@@ -56,10 +107,19 @@ function CourseList() {
                   <strong>{course.title}</strong> ({course.number})
                   <p className="course-professor">by {course.professor}</p>
                 </div>
-                
-                {/* Display course info directly without expanding */}
                 <div className="course-info">
                   <p>{course.info}</p>
+                </div>
+                <div className="course-actions">
+                  {enrolledCourses.includes(course._id) ? (
+                    <button className="btn btn-danger" onClick={() => dropCourse(course._id)}>
+                      Drop
+                    </button>
+                  ) : (
+                    <button className="btn btn-primary" onClick={() => enrollInCourse(course._id)}>
+                      Enroll
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -74,42 +134,25 @@ function CourseList() {
           background-color: white;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
           transition: all 0.3s ease;
-          height: auto; /* Allow flexible height */
-          width: 100%; /* Full width within column */
           display: flex;
           flex-direction: column;
           justify-content: space-between;
         }
-
         .course-card-header {
           font-size: 1.2rem;
           font-weight: bold;
         }
-
         .course-professor {
           font-size: 0.9rem;
           color: gray;
         }
-
         .course-info {
           margin-top: 10px;
         }
-
-        /* Custom CSS for larger columns with min-width to prevent shrinking */
-        @media (min-width: 768px) {
-          .col {
-            flex: 0 0 33%;  /* Set fixed width for medium and larger screens */
-            max-width: 33%;  /* Ensure that cards don't shrink */
-            min-width: 250px;  /* Prevent shrinking by setting a min-width */
-          }
-        }
-
-        /* Smaller screens - ensure cards still look good */
-        @media (max-width: 767px) {
-          .col {
-            flex: 0 0 100%; /* Take full width on smaller screens */
-            max-width: 100%;
-          }
+        .course-actions {
+          margin-top: 20px;
+          display: flex;
+          gap: 10px;
         }
       `}</style>
     </div>

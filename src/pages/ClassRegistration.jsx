@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ClassRegistration() {
   const [courses, setCourses] = useState([]); // All courses from the API
   const [search, setSearch] = useState("");
   const [selectedCourses, setSelectedCourses] = useState([]); // Courses the user has selected
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -63,13 +61,12 @@ function ClassRegistration() {
       setError("You must be logged in to register for courses.");
       return;
     }
-  
+
     try {
-      // Check if there are any selected courses, if not, send an empty array to clear the user's courses.
       const coursesToRegister = selectedCourses.length > 0 
         ? selectedCourses.map((course) => course._id) // Send course IDs
         : []; // Empty array if no courses are selected
-  
+
       const response = await fetch("https://equinox-backend.glitch.me/api/user/courses", {
         method: "PUT",
         headers: {
@@ -80,26 +77,25 @@ function ClassRegistration() {
           selectedCourses: coursesToRegister, // Send the updated course list (or empty array)
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(data.error || "Failed to register for courses.");
       }
-  
+
       setMessage(selectedCourses.length === 0 ? "Courses cleared successfully!" : "Courses registered successfully!");
-  
+
       // Clear the selected courses array after registering or clearing
       setSelectedCourses([]);
-  
+
       // After successful registration, fetch the updated courses for the user
       fetchUserCourses(); // Refresh the selected courses state
-  
+
     } catch (error) {
       setError(error.message);
     }
   };
-  
 
   useEffect(() => {
     fetchCourses(); // Fetch all available courses
@@ -115,7 +111,7 @@ function ClassRegistration() {
     <div className="container">
       <div className="row">
         {/* Courses List */}
-        <div className="col">
+        <div className="col-md-6">
           <h1>Courses List</h1>
           <Input
             className="search-input"
@@ -132,14 +128,14 @@ function ClassRegistration() {
                   course.title.toLowerCase().includes(search.toLowerCase())
                 )
                 .map((course) => (
-                  <div className="row course-card" key={course._id}>
+                  <div className="row course-card align-items-center py-2 border-bottom" key={course._id}>
                     <div className="col">
                       <strong>{course.title}</strong> ({course.number})
                       <p className="course-professor">by {course.professor}</p>
                     </div>
-                    <div className="col col-lg-3">
-                      <Button onClick={() => handleCourseSelection(course)}>
-                        {selectedCourses.some((selectedCourse) => selectedCourse._id === course._id) ? "-" : "+"}
+                    <div className="col col-lg-3 text-end">
+                      <Button className="btn btn-success btn-sm" onClick={() => handleCourseSelection(course)}>
+                        Add Course
                       </Button>
                     </div>
                   </div>
@@ -148,8 +144,8 @@ function ClassRegistration() {
           </div>
         </div>
 
-        {/* Selected Courses */}
-        <div className="col">
+        {/* Selected Courses Section */}
+        <div className="col-md-6">
           <h1>Courses Selected</h1>
           <h5>Selected Courses:</h5>
           <div className="selected-courses">
@@ -157,14 +153,14 @@ function ClassRegistration() {
               <p>No courses selected.</p>
             ) : (
               selectedCourses.map((course) => (
-                <div className="row course-card" key={course._id}>
+                <div className="row course-card align-items-center py-2 border-bottom" key={course._id}>
                   <div className="col">
                     <strong>{course.title}</strong> ({course.number})
                     <p className="course-professor">by {course.professor}</p>
                   </div>
-                  <div className="col col-lg-3">
-                    <Button onClick={() => handleCourseSelection(course)}>
-                      {selectedCourses.some((selectedCourse) => selectedCourse._id === course._id) ? "-" : "+"}
+                  <div className="col col-lg-3 text-end">
+                    <Button className="btn btn-danger btn-sm" onClick={() => handleCourseSelection(course)}>
+                      Remove Course
                     </Button>
                   </div>
                 </div>
@@ -172,11 +168,12 @@ function ClassRegistration() {
             )}
           </div>
 
-          <Button onClick={handleRegisterCourses} disabled={!localStorage.getItem("token")}>
-            {selectedCourses.length === 0 ? "Clear" : "Register"} 
+          <Button onClick={handleRegisterCourses} className="btn btn-primary mt-3">
+            {selectedCourses.length === 0 ? "Clear All Courses" : "Register Selected Courses"}
           </Button>
-          {error && <p className="error">{error}</p>}
-          {message && <p className="message">{message}</p>}
+
+          {error && <p className="error text-danger mt-2">{error}</p>}
+          {message && <p className="message text-success mt-2">{message}</p>}
         </div>
       </div>
     </div>
