@@ -7,6 +7,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 function NavBar({ isLoggedIn }) {  // Accept isLoggedIn as a prop
   const navigate = useNavigate(); // Hook for navigation
 
+  const userRole = localStorage.getItem("role")
+
   return (
     <nav className="navbar bg-body-tertiary fixed-top">
       <div className="container-fluid">
